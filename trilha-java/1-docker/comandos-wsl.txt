@@ -1,0 +1,15 @@
+pwd - exibe o diretorio atual
+cp /home/renato /mnt/c/projetos - copia um conteudo do ubuntu para uma pasta no windows
+\\wsl$ - executando o comando no path de um diretorio, acessa a pasta raiz do ubuntu
+wsl -l -v - no cmd, exibe o status das instancias do ubuntu
+wsl --shutdown - no cmd, derruba todas as instancias
+cat .wslconfig - no git bash, abre as configuracoes de infra do wsl ubuntu
+
+
+
+
+- criar um arquivo .wslconfig na raiz da pasta do usuario com as configuracoes:
+[wsl2]
+memory=8GB
+processors=4
+swap=2GB
