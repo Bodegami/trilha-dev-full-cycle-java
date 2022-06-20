@@ -4,6 +4,7 @@ cp /home/renato /mnt/c/projetos - copia um conteudo do ubuntu para uma pasta no 
 wsl -l -v - no cmd, exibe o status das instancias do ubuntu
 wsl --shutdown - no cmd, derruba todas as instancias
 cat .wslconfig - no git bash, abre as configuracoes de infra do wsl ubuntu
+wsl -d "instancia" - no cmd, acessa uma instancia. Ex: docker
 
 
 
