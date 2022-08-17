@@ -1,3 +1,5 @@
+COMANDOS BÁSICOS:
+
 docker --version == imprime a versao do Docker instalada
 
 docker ps == imprime os containers em execucao
@@ -6,3 +8,30 @@ docker ps -a == imprime todos os containers (em execucao e os parados)
 
 docker run hello-world == baixa a imagem e cria um container com a imagem informada (hello-world)
 
+docker run -i ubuntu bash == baixa a imagem do ubuntu, cria o container com a imagem e abre o terminal bash interativo
+
+docker exec -it "nome_container" bash == acessa um container, integrando o terminal e abilitando a execucao de comandos
+
+exit ou CTRL + D == sai de um container docker
+
+docker start "nome_container" == inicia um container parado
+
+docker run -it --rm ubuntu:latest bash == baixa a imagem do ubuntu, cria o container com a imagem, abre o terminal bash interativo e exclui o container ao sair.
+
+
+
+
+
+
+
+FLAGS:
+
+-i == modo interativo, ele anexa o seu terminal com o do container de forma que é possível acessar o container
+
+-t == TTY, permite digtar coisas no terminal
+
+-it == modo interativo que anexa o terminal local com o do container e possibilita a digitação de comandos
+
+-a == exibe instâncias, imagens e containers parados 
+
+--rm == remove um processo, container, imagem, volume e etc
