@@ -1,0 +1,8 @@
+docker --version == imprime a versao do Docker instalada
+
+docker ps == imprime os containers em execucao
+
+docker ps -a == imprime todos os containers (em execucao e os parados)
+
+docker run hello-world == baixa a imagem e cria um container com a imagem informada (hello-world)
+
