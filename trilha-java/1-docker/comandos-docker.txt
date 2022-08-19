@@ -32,6 +32,9 @@ docker run --name meu-ubuntu ubuntu == baxa a imagem ubuntu, cria um container d
 
 docker exec id_container/ nome_container comando_bash == executa um comando informado no container informado
 
+docker run -p 8080:80 -v ~/Projects/fullcycle3/docker/html:/usr/share/nginx/html nginx == baixa a imagem do ngix, cria um container e faz um "bind mount" do volume local para um volume do container
+
+
 
 
 FLAGS:
@@ -54,6 +57,9 @@ FLAGS:
 
 --name meu-container == atribui o nome informado ao container
 
+-v rota_local:rota_do_container == cria um "bind mount" que é um volume local que será atachado ao container em execucao. É importante lembrar que ao excluir este container, esse volume não sofrera nenhum impacto.
+
+--mount  type=bind, source="$(pwd)"/html, target=/usr/share/nginx/html == tem a mesma funcionalidade do -v, porém é mais atual e explicito. Além disso, o --mount valida se a pasta ou arquivo informado existe, já o -v cria o arquivo ou pasta caso ele nao exista.
 
 
 
@@ -61,7 +67,7 @@ FLAGS:
 
 TIPS:
 
-- Alterando a pagina principal de container nginx
+- Alterando a pagina principal de container nginx:
     - acessamos o container com terminal bash: docker exec -it id_container/ nome_container bash
     - atualizamos o cache do apt-get : apt-get update
     - instalamos o editor de textos vim: apt-get install vim
@@ -72,3 +78,12 @@ TIPS:
     - saindo do modo edicao: pressionar a tecla ESC para sair do modo edicao. A palavra INSERT deve sumir do terminal
     - salvando o arquivo: pressionamos as teclas ":w" para salvar o arquivo. O W é de write
     - saindo do vim: pressionamos as teclas ":q" para sair do vim. O Q é de quit.
+    
+    
+- Exibindo informacoes do container: 
+    - acessamos o container com terminal bash: docker exec -it id_container/ nome_container bash
+    - executamos o comando: uname -a. As informacoes serao printadas na tela
+  
+  
+- Linux tips:
+    - echo $(pwd) == imprime o diretorio atual
