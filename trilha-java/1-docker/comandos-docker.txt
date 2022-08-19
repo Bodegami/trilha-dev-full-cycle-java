@@ -14,13 +14,19 @@ docker exec -it "nome_container" bash == acessa um container, integrando o termi
 
 exit ou CTRL + D == sai de um container docker
 
-docker start "nome_container" == inicia um container parado
+docker start id_container/ nome_container == inicia um container parado
+
+docker stop id_container/ nome_container == interrompe a execucao do container informado.
 
 docker run -it --rm ubuntu:latest bash == baixa a imagem do ubuntu, cria o container com a imagem, abre o terminal bash interativo e exclui o container ao sair.
 
 docker run -d -p 8080:80 nginx == baixa a imagem nginx, cria o container da imagem redirecionando a porta do container 8080 para a porta local 80 e sem travar o terminal.
 
+docker stop id_container/ nome_container == interrompe a execucao do container informado.
 
+docker rm id_container/ nome_container == exclui um container parado
+
+docker rm id_container/ nome_container -f == força a exclusao de um container mesmo que em execucao
 
 
 
@@ -39,3 +45,5 @@ FLAGS:
 -p 8080:9000 == publica a porta 8080 do container para a minha porta local 9000 (redireciona de 8080 para 9000)
 
 -d == executa o script e libera o terminal. É D de detached
+
+-f == força a execucao de um processo
