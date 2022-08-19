@@ -34,6 +34,17 @@ docker exec id_container/ nome_container comando_bash == executa um comando info
 
 docker run -p 8080:80 -v ~/Projects/fullcycle3/docker/html:/usr/share/nginx/html nginx == baixa a imagem do ngix, cria um container e faz um "bind mount" do volume local para um volume do container
 
+docker volume create nome_volume == cria um volume local com o nome informado
+
+docker volume inspect nome_volume == imprime o detalhamento dos dados do volume informado
+
+docker run --mount type=volume,source=meuvolume,target=/app nginx == baixa a imagem nginx, cria o container da imagem atachando o volume local "meuvolume" no container. 
+A vantagem é que podemos criar varios containers compartilhando o mesmo volume.
+
+docker run -v meuvolume:/app nginx == baixa a imagem nginx, cria o container da imagem e assim como --mount, -v atacha um volume local ao container no diretorio informado.
+
+docker volume prune == remove todos os volumes locais que não estão sendo utilizados e informa o espaço em disco liberado.
+
 
 
 
@@ -67,7 +78,7 @@ FLAGS:
 
 TIPS:
 
-- Alterando a pagina principal de container nginx:
+- ALTERANDO A PAGINA PRINCIPAL DE CONTAINER NGINX:
     - acessamos o container com terminal bash: docker exec -it id_container/ nome_container bash
     - atualizamos o cache do apt-get : apt-get update
     - instalamos o editor de textos vim: apt-get install vim
@@ -80,7 +91,7 @@ TIPS:
     - saindo do vim: pressionamos as teclas ":q" para sair do vim. O Q é de quit.
     
     
-- Exibindo informacoes do container: 
+- EXIBINDO INFORMACOES DO CONTAINER: 
     - acessamos o container com terminal bash: docker exec -it id_container/ nome_container bash
     - executamos o comando: uname -a. As informacoes serao printadas na tela
   
