@@ -18,7 +18,7 @@ docker start "nome_container" == inicia um container parado
 
 docker run -it --rm ubuntu:latest bash == baixa a imagem do ubuntu, cria o container com a imagem, abre o terminal bash interativo e exclui o container ao sair.
 
-
+docker run -d -p 8080:80 nginx == baixa a imagem nginx, cria o container da imagem redirecionando a porta do container 8080 para a porta local 80 e sem travar o terminal.
 
 
 
@@ -35,3 +35,7 @@ FLAGS:
 -a == exibe instâncias, imagens e containers parados 
 
 --rm == remove um processo, container, imagem, volume e etc
+
+-p 8080:9000 == publica a porta 8080 do container para a minha porta local 9000 (redireciona de 8080 para 9000)
+
+-d == executa o script e libera o terminal. É D de detached
