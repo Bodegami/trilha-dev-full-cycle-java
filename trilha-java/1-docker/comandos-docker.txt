@@ -28,6 +28,10 @@ docker rm id_container/ nome_container == exclui um container parado
 
 docker rm id_container/ nome_container -f == força a exclusao de um container mesmo que em execucao
 
+docker run --name meu-ubuntu ubuntu == baxa a imagem ubuntu, cria um container da imagem com o nome meu-ubuntu
+
+docker exec id_container/ nome_container comando_bash == executa um comando informado no container informado
+
 
 
 FLAGS:
@@ -47,3 +51,24 @@ FLAGS:
 -d == executa o script e libera o terminal. É D de detached
 
 -f == força a execucao de um processo
+
+--name meu-container == atribui o nome informado ao container
+
+
+
+
+
+
+TIPS:
+
+- Alterando a pagina principal de container nginx
+    - acessamos o container com terminal bash: docker exec -it id_container/ nome_container bash
+    - atualizamos o cache do apt-get : apt-get update
+    - instalamos o editor de textos vim: apt-get install vim
+    - acessamos o diretorio do arquivo principal: cd /usr/share/nginx
+    - executamos o editor de texto do arquivo index.html: vim index.html
+    - abilitamos o modo edicao: pressionar tecla "i". final do terminal de aparecer INSERT indicando que o modo edicao está ativo
+    - alteramos o arquivo: alteramos da forma que quisermos
+    - saindo do modo edicao: pressionar a tecla ESC para sair do modo edicao. A palavra INSERT deve sumir do terminal
+    - salvando o arquivo: pressionamos as teclas ":w" para salvar o arquivo. O W é de write
+    - saindo do vim: pressionamos as teclas ":q" para sair do vim. O Q é de quit.
