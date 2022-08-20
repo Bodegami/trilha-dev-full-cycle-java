@@ -60,6 +60,19 @@ A vantagem dessa abordagem é que podemos criar uma imagem personalizada.
 
 
 
+DOCKERFILE:
+
+As principais tags do dockerfile são:
+
+- FROM: é onde informamos a imagem e versao
+- USER: é o usuário que queremos definir com padrao no container, lembrando que o mesmo já deve ser criado no container. Caso esse parametro seja omitido, por padrao o docker vai usar o usuario root do container.
+- WORKDIR: é o diretorio padrao ao acessar o container
+- RUN: executa um ou mais sequências de comandos como apt-get install vim e etc
+- COPY: copia uma pasta do ambiente local para um diretorio dentro do container.
+
+
+
+
 
 FLAGS:
 
