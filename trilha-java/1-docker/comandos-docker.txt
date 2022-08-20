@@ -45,6 +45,16 @@ docker run -v meuvolume:/app nginx == baixa a imagem nginx, cria o container da 
 
 docker volume prune == remove todos os volumes locais que não estão sendo utilizados e informa o espaço em disco liberado.
 
+docker images == imprime as imagens no computador.
+
+docker pull nome_imagem:versao_da_imagem == baixa a versao da imagem informada. Caso a versao seja omitida, ele vai baixar a ultima versao disponivel.
+
+docker rmi nome_imagem:versao_da_imagem == exclui a imagem informada.
+
+
+
+
+
 
 
 
