@@ -51,6 +51,9 @@ docker pull nome_imagem:versao_da_imagem == baixa a versao da imagem informada. 
 
 docker rmi nome_imagem:versao_da_imagem == exclui a imagem informada.
 
+docker build -t usuario/nome_imagem:versao_imagem . == cria uma imagem a partir da versao informada na raiz do diretorio. Para esse comando funcionar é necessário um dockerfile na raiz do diretorio.
+A vantagem dessa abordagem é que podemos criar uma imagem personalizada.
+
 
 
 
