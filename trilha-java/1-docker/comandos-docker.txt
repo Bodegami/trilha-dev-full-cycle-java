@@ -77,6 +77,8 @@ As principais tags do dockerfile são:
 - COPY: copia uma pasta do ambiente local para um diretorio dentro do container.
 - CMD: executa um comando dentro do container. Esse comando pode ser substituido por um parametro hora da criacao do container
 - ENTRYPOINT: executa um comando dentro do container. É um comando fixo que não pode ser substituido, mas pode ser combinado com um comando variavel.
+- ENV: envia variaveis de ambiente para o container.
+- EXPOSE: expoe uma porta do container. Ainda assim é necessário fazer o bind com uma porta local para acessar esta porta.
 
 
 
@@ -128,8 +130,18 @@ TIPS:
 - EXIBINDO INFORMACOES DO CONTAINER: 
     - acessamos o container com terminal bash: docker exec -it id_container/ nome_container bash
     - executamos o comando: uname -a. As informacoes serao printadas na tela
-  
+    
+- VERIFICANDO O DOCKERFILE DE UMA IMAGEM:
+    - acessamos o repositorio da imagem no docker hub
+    - acessamos a versao que buscamos e seremos redirecionados para a github da imagem
+    - no repositorio do gitub é possivel acessar o dockerfile e verificar todas as instrucoes.
   
 - Linux tips:
     - echo $(pwd) == imprime o diretorio atual
     - uname -a == imprime a versao linux
+    
+- Sobre o arquivo docker-entrypoint.sh:
+    - o arquivo docker-entrypoint.sh tem uma instrucao "exec '$@". 
+    - essa instrucao indica que ele aceita qualquer instrucao apos a sua execucao.
+    - exemplo: ./docker-entrypoint.sh echo "hello"
+    - ele ira executar toda logica dentro do arquivo docker-entrypoint.sh e depois ira imprimir no console o "hello"
