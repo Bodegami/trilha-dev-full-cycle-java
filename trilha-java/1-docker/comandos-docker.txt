@@ -60,6 +60,8 @@ docker rm $(docker ps -a -q) -f == exclui todos os container pelos id's. Note qu
 
 docker run --rm usuario/nome_imagem:versao_imagem echo "oi" == cria um container da imagem informada e substitui comando inicial do container pela instucao informada e executa.
 
+docker push usuario/nome_imagem:versao_imagem === faz o push da imagem para o docker hub do usuario informado
+
 
 
 
