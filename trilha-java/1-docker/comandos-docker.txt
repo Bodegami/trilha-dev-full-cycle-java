@@ -54,6 +54,12 @@ docker rmi nome_imagem:versao_da_imagem == exclui a imagem informada.
 docker build -t usuario/nome_imagem:versao_imagem . == cria uma imagem a partir da versao informada na raiz do diretorio. Para esse comando funcionar é necessário um dockerfile na raiz do diretorio.
 A vantagem dessa abordagem é que podemos criar uma imagem personalizada.
 
+docker ps -a -q == imprime apenas os id's de todos os contaners
+
+docker rm $(docker ps -a -q) -f == exclui todos os container pelos id's. Note que são duas instrucoes dentro de um comando.
+
+docker run --rm usuario/nome_imagem:versao_imagem echo "oi" == cria um container da imagem informada e substitui comando inicial do container pela instucao informada e executa.
+
 
 
 
@@ -69,6 +75,8 @@ As principais tags do dockerfile são:
 - WORKDIR: é o diretorio padrao ao acessar o container
 - RUN: executa um ou mais sequências de comandos como apt-get install vim e etc
 - COPY: copia uma pasta do ambiente local para um diretorio dentro do container.
+- CMD: executa um comando dentro do container. Esse comando pode ser substituido por um parametro hora da criacao do container
+- ENTRYPOINT: executa um comando dentro do container. É um comando fixo que não pode ser substituido, mas pode ser combinado com um comando variavel.
 
 
 
@@ -84,7 +92,7 @@ FLAGS:
 
 -a == exibe instâncias, imagens e containers parados 
 
---rm == remove um processo, container, imagem, volume e etc
+rm == remove um processo, container, imagem, volume e etc
 
 -p 8080:9000 == publica a porta 8080 do container para a minha porta local 9000 (redireciona de 8080 para 9000)
 
@@ -124,3 +132,4 @@ TIPS:
   
 - Linux tips:
     - echo $(pwd) == imprime o diretorio atual
+    - uname -a == imprime a versao linux
