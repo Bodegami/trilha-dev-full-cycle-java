@@ -62,6 +62,20 @@ docker run --rm usuario/nome_imagem:versao_imagem echo "oi" == cria um container
 
 docker push usuario/nome_imagem:versao_imagem === faz o push da imagem para o docker hub do usuario informado
 
+docker -d -it --name ubuntu1 ubuntu bash == cria um container do ubuntu e com o nome ubuntu1, com terminal bash no estado "dettach".
+
+docker attach ubuntu1 == conecta ao terminal do container informado.
+
+docker network ls == imprime todas as networks 
+
+docker network prune == exclui todas as networks
+
+docker network inspect nome_network == imprime os dados da network informada e os containers conectados.
+
+docker network create --driver tipo_driver nome_rede == cria uma rede do tipo informado e com o nome informado.
+
+docker network connect nome_rede nome_container == conecta um container a rede informada.
+
 
 
 
@@ -91,7 +105,9 @@ NETWORK:
     - maclan: simula um um mac-adress de uma máquina real.
     - none: cria uma rede isolada para o container
 
-- quando não especificamos o tipo de network, por padrão o docker utiliza o tipo bridge
+- por padrão o docker sobe com três networks (bridge, host e none) e quando não especificamos a network, o docker utiliza a bridge como padrão.
+- quando utilizamos a rede padrão bridge, os containers não consegue se comunicar pelo "nome", apenas pelo ip.
+- quando criamos a nossa rede bridge, os containers conseguem se comunicar tanto pelo "nome" quanto pelo "ip".
 
 
 
