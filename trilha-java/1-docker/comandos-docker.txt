@@ -83,6 +83,17 @@ As principais tags do dockerfile são:
 - EXPOSE: expoe uma porta do container. Ainda assim é necessário fazer o bind com uma porta local para acessar esta porta.
 
 
+NETWORK:
+- tipos de network:
+    - bridge: é a network default. Ela permite um container se conectar com outro
+    - host: permite uma conexao entre o container e o host. Fica na mesma rede do computador.
+    - overlay: cria uma rede para que varias instancias do mesmo container possam se comunicar.
+    - maclan: simula um um mac-adress de uma máquina real.
+    - none: cria uma rede isolada para o container
+
+- quando não especificamos o tipo de network, por padrão o docker utiliza o tipo bridge
+
+
 
 
 
