@@ -76,6 +76,8 @@ docker network create --driver tipo_driver nome_rede == cria uma rede do tipo in
 
 docker network connect nome_rede nome_container == conecta um container a rede informada.
 
+docker run -d --network host nginx == cria o container conectado na rede da máquina. O ponto de atenção aqui que isso funciona no Linux, para windows e mac é necessário outras configurações.
+
 
 
 
