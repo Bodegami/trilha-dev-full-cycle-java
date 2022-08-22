@@ -176,3 +176,9 @@ TIPS:
     - essa instrucao indica que ele aceita qualquer instrucao apos a sua execucao.
     - exemplo: ./docker-entrypoint.sh echo "hello"
     - ele ira executar toda logica dentro do arquivo docker-entrypoint.sh e depois ira imprimir no console o "hello"
+    
+- Container acessando um recurso em execucao na máquina:
+    - acesamos o container
+    - depois executamos: apt-get update && apt-get install curl -y
+    - para acessar o localhost da sua máquina, usamos: curl http://host.docker.internal:porta_do_recurso
+    -- dessa forma conseguimos acessar de dentro de um container, um endpoint de uma aplicaco rodando localmente.
