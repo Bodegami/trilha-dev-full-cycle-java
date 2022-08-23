@@ -182,3 +182,13 @@ TIPS:
     - depois executamos: apt-get update && apt-get install curl -y
     - para acessar o localhost da sua máquina, usamos: curl http://host.docker.internal:porta_do_recurso
     -- dessa forma conseguimos acessar de dentro de um container, um endpoint de uma aplicaco rodando localmente.
+    
+- Instalando um framework php em container:
+    - baixamos a imagem da linguagem e acessamos o container: docker run -it --name php php:7.4-cli bash
+    - atualizamos as libs do container: apt-get update
+    - criamos um diretorio para framework dentro do container: mkdir /var/www
+    - para instalar o laravel, vamos utilizar o composer: acessar a documentacao https://getcomposer.org/
+    - executamos os comandos de instalacao da documentacao dentro do container: https://getcomposer.org/download/
+    - precisamos instalar o zip no container: apt-get install libzip-dev -y
+    - precisamos instalar a extensao zip do php:  docker-php-ext-install zip
+    - vamos criar o projeto: php composer.phar create-project --prefer-dist laravel/laravel laravel
