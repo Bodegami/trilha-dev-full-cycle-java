@@ -214,3 +214,23 @@ TIPS:
                                 RUN php composer.phar create-project --prefer-dist laravel/laravel laravel
                                 ENTRYPOINT [ "php","laravel/artisan","serve" ]
                                 CMD [ "--host=0.0.0.0" ]
+                                
+ - Criando aplicação Node.js sem o Node:
+    - executamos o docker run da linguagem, fazemos o bind de um diretorio local e executamos o bash: docker run --rm -it -v $(pwd)/:/usr/src/app -p 3000:3000 node:15 bash 
+    - acessamos o diretorio do container: cd /usr/src/app
+    - criamos o arquivo package.json: npm init -y
+    - instalamos o express: npm install express --save
+    - criamos o arquivo principal do projeto: touch index.json
+    - criamos toda logica para expor um endpoint:
+                                                    const express = require('express')
+                                                    const app = express()
+                                                    const port = 3000
+                                                    
+                                                    app.get('/', (req, res) => {
+                                                        res.send('<h1>Full Cycle 3!!!</h1>')
+                                                    })
+                                                    
+                                                    app.listen(port, () => {
+                                                        console.log(`Rodando na porta ${port}`)
+                                                    })
+    - executamos o arquivo index.js: node index.js
