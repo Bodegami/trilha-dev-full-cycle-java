@@ -215,7 +215,9 @@ TIPS:
                                 ENTRYPOINT [ "php","laravel/artisan","serve" ]
                                 CMD [ "--host=0.0.0.0" ]
                                 
- - Criando aplicação Node.js sem o Node:
+- Criando aplicação Node.js sem o Node:
+    - criamos um diretorio: mkdir node
+    - acessamos o diretorio: cd /node
     - executamos o docker run da linguagem, fazemos o bind de um diretorio local e executamos o bash: docker run --rm -it -v $(pwd)/:/usr/src/app -p 3000:3000 node:15 bash 
     - acessamos o diretorio do container: cd /usr/src/app
     - criamos o arquivo package.json: npm init -y
@@ -234,3 +236,18 @@ TIPS:
                                                         console.log(`Rodando na porta ${port}`)
                                                     })
     - executamos o arquivo index.js: node index.js
+    - criamos um Dockerfile do projeto:
+                                        FROM node:15
+                                        WORKDIR /usr/src/app
+                                        COPY . .
+                                        EXPOSE 3000
+                                        CMD ["node","index.js"]
+    - executamos o build da imagem: docker build -t usuario/imagem:versao .
+    - criamos um container com a nossa imagem: docker run --name hello-express -p 3000:3000 nome_imagem
+                                        
+- Executando o build com um Dockerfile especifico:
+    - acessamos o diretorio com os Dockerfiles:
+    - executamos o build apontando para o Dockerfile especifico: docker build -t usuario/imagem . -f nome_dockerfile
+                                        
+                                        
+                                        
