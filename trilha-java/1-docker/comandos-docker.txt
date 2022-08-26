@@ -84,6 +84,8 @@ docker rm -f inicio_id_container == mata o container apenas pelo inicio do id
 
 docker images | grep laravel == busca todas imagens que contem o parametro informado (laravel)
 
+docker network create minha_rede == cria uma network com o nome informado. Por padrão ele cria uma rede do tipo bridge
+
 
 
 
@@ -251,7 +253,7 @@ TIPS:
     - acessamos o diretorio com os Dockerfiles:
     - executamos o build apontando para o Dockerfile especifico: docker build -t usuario/imagem . -f nome_dockerfile
                       
-- UTILIZANDO O MULTISTAGE BUILDING PARA CRIAR UM DOCKERFILE COM LARAVEL E NGINX COMO PROXY REVERSO:
+- UTILIZANDO O MULTISTAGE BUILDING PARA CRIAR UM DOCKERFILE COM LARAVEL:
     - Utilizamos o Dockerfile que criamos para o Laravel e removemos o ENTRYPOINT/CMD: Copiamos o Dockerfile e renomeamos para Dockerfile.prod. Depois excluimos o Entrypoint e o CMD do arquivo.
     - No final do arquivo definimos o from para o estagio de build 2: FROM php:7.4-fpm-alpine
     - definimos o Workir: WORKDIR /var/www
@@ -262,7 +264,54 @@ TIPS:
     - precisamos expor uma porta: EXPOSE 9000
     - precisamos também executar o php: CMD [ "php-fpm" ]
     - executamos o build da imagem: docker build -t usuario/laravel:prod laravel -f laravel/Dockerfile.prod 
-    - 
+    - Exemplo do Dockerfile.prod: 
+                                    # -------------- PRIMEIRO ESTAGIO DE BUILD ------------------------
+                                    FROM php:7.4-cli AS builder
+
+                                    WORKDIR /var/www
+
+                                    # Atualiza as libs do container, instala a lib zip e a extensao zip para php
+                                    RUN apt-get update && \ 
+                                        apt-get install libzip-dev -y && \
+                                        docker-php-ext-install zip
+                                    
+                                    # Instala o gerenciador de pacotes "composer" do php
+                                    RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+                                        php composer-setup.php && \
+                                        php -r "unlink('composer-setup.php');"
+
+                                    # Instala o framework Laravel e cria um projeto 
+                                    RUN php composer.phar create-project --prefer-dist laravel/laravel laravel
+
+                                    # -------------- SEGUNDO ESTAGIO DE BUILD -------------------------
+
+                                    FROM php:7.4-fpm-alpine
+                                    WORKDIR /var/www
+                                    RUN rm -rf /var/www/html
+                                    COPY --from=builder /var/www/laravel .
+                                    RUN chown -R www-data:www-data /var/www
+                                    EXPOSE 9000
+                                    CMD [ "php-fpm" ]
+    
+- CRIANDO UM PROXY REVERSO COM NGINX CHAMANDO O LARAVEL:
+    - acessamos o diretorio do nginx: cd nginx
+    - criamos um arquivo de configuracao do nginx: touch nginx.conf 
+    - adicionamos todos os parametros necessarios para proxy reverso: as informacoes estão no arquivo nginx.conf do repositorio deste projeto
+    - copiamos o arquivo dockerfile do nginx e renomeamos para Dockerfile.prod: cp Dockerfile Dockerfile.prod 
+    - no Dockerfile.prod vamos ajustar a versão da imagem: FROM nginx:1.15.0-alpine
+    - vamos remover a configuracao default do nginx: RUN rm /etc/nginx/conf.d/default.conf
+    - vamos copiar o nosso arquivo de configuracao do nginx para dentro diretorio da imagem: COPY nginx.conf /etc/nginx/conf.d
+    - precisamos criar um arquivo .php para fazer o redirecionamento para o container do laravel: RUN mkdir /var/www/html -p && touch /var/www/html/index.php 
+        - É esse arquivo index que será responsavel pelo redirecionamento, caso contrario retorna um status code 404.
+    - criamos a imagem do nginx.prod: docker build -t devbode/nginx:prod . -f Dockerfile.prod
+    - criamos um network bridge para o container do nginx se comunicar com o container do laravel: docker network create laranet
+    - acessamos o Dockerfile.prod do laravel e adicionamos um link simbolico antes da linha EXPOSE: RUN ln -s public html
+    - geramos o build novamente do Dockerfile.prod do laravel: docker build -t devbode/laravel:prod laravel -f laravel/Dockerfile.prod 
+    - executamos o build da imagem do laravel: docker run -d --network laranet --name laravel usuario/laravel:prod 
+    - executamos o build da imagem do nginx: docker run -d --network laranet --name nginx -p 8080:80 usuario/nginx:prod
+    - pronto: Quando chamamos a porta 8080, o nginx recebe a requisição, carrega o arquivo index.php em branco e redireciona a chamada pro container do laravel por de baixo dos panos.
+    - Dockerfiles: os dockerfiles dos dois projetos estão em suas respectivas pastas deste projeto.
+    - Obs: O nginx faz a exposicao de arquivos estaticos, mas para isso precisamos mover os arquivos para dentro do container do nginx
     
                                         
                                         
