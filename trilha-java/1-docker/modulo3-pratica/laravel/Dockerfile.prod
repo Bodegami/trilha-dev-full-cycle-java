@@ -1,0 +1,27 @@
+# -------------- PRIMEIRO ESTAGIO DE BUILD ------------------------
+FROM php:7.4-cli AS builder
+
+WORKDIR /var/www
+
+# Atualiza as libs do container, instala a lib zip e a extensao zip para php
+RUN apt-get update && \ 
+    apt-get install libzip-dev -y && \
+    docker-php-ext-install zip
+
+# Instala o gerenciador de pacotes "composer" do php
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    php -r "unlink('composer-setup.php');"
+
+# Instala o framework Laravel e cria um projeto 
+RUN php composer.phar create-project --prefer-dist laravel/laravel laravel
+
+# -------------- SEGUNDO ESTAGIO DE BUILD -------------------------
+
+FROM php:7.4-fpm-alpine
+WORKDIR /var/www
+RUN rm -rf /var/www/html
+COPY --from=builder /var/www/laravel .
+RUN chown -R www-data:www-data /var/www
+EXPOSE 9000
+CMD [ "php-fpm" ]

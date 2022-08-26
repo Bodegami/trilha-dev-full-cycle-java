@@ -82,6 +82,8 @@ docker logs nome_container == imprime os logs do container
 
 docker rm -f inicio_id_container == mata o container apenas pelo inicio do id
 
+docker images | grep laravel == busca todas imagens que contem o parametro informado (laravel)
+
 
 
 
@@ -248,6 +250,19 @@ TIPS:
 - Executando o build com um Dockerfile especifico:
     - acessamos o diretorio com os Dockerfiles:
     - executamos o build apontando para o Dockerfile especifico: docker build -t usuario/imagem . -f nome_dockerfile
-                                        
+                      
+- UTILIZANDO O MULTISTAGE BUILDING PARA CRIAR UM DOCKERFILE COM LARAVEL E NGINX COMO PROXY REVERSO:
+    - Utilizamos o Dockerfile que criamos para o Laravel e removemos o ENTRYPOINT/CMD: Copiamos o Dockerfile e renomeamos para Dockerfile.prod. Depois excluimos o Entrypoint e o CMD do arquivo.
+    - No final do arquivo definimos o from para o estagio de build 2: FROM php:7.4-fpm-alpine
+    - definimos o Workir: WORKDIR /var/www
+    - agora precisamos remover a pasta html que existe dentro do nosso estagio de build 1: RUN rm -rf /var/www/html
+    - adicionamos um alias a imagem do laravel no inicio do Dockerfile: FROM php:7.4-cli AS builder
+    - agora vamos copiar o estagio de build 1 para no nosso estagio de build 2: COPY --from=builder /var/www/laravel .
+    - precisamos liberar as permissoes de leitura e escrita para o usuario do alpine no nosso diretorio: RUN chown -R www-data:www-data /var/wwww
+    - precisamos expor uma porta: EXPOSE 9000
+    - precisamos também executar o php: CMD [ "php-fpm" ]
+    - executamos o build da imagem: docker build -t usuario/laravel:prod laravel -f laravel/Dockerfile.prod 
+    - 
+    
                                         
                                         
