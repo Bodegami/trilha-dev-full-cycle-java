@@ -218,6 +218,46 @@ DOCKER-COMPOSE:
         networks:
           node-network:
             driver: bridge
+            
+            
+    MODELO RODANDO NODE E MYSQL E SALVANDO OS DADOS E PROJETO LOCAL:
+    
+    version: '3'
+
+        services:
+
+          app:
+            build:
+              context: node
+            container_name: app
+            networks:
+              - node-network
+            volumes:
+              - ./node:/usr/src/app
+            tty: true
+            ports:
+              - "3000:3000"
+
+
+          db:
+            image: mysql:5.7
+            command: --innodb-use-native-aio=0 --explicit_defaults_for_timestamp --default-authentication-plugin=mysql_native_password
+            container_name: db
+            restart: always
+            tty: true
+            volumes:
+              - ./mysql:/var/lib/mysql
+            environment:
+              MYSQL_DATABASE: nodedb
+              MYSQL_USER: bode
+              MYSQL_PASSWORD: bode
+              MYSQL_ROOT_PASSWORD: example
+            networks:
+              - node-network
+
+        networks:
+          node-network:
+            driver: bridge
 
 
 FLAGS:
