@@ -3,9 +3,6 @@ version: '3'
 services:
 
   laravel:
-    build:
-      context: ./laravel
-      dockerfile: Dockerfile.prod
     image: devbode/laravel:prod
     container_name: laravel
     networks:
@@ -13,9 +10,6 @@ services:
 
   
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.prod
     image: devbode/nginx:prod
     container_name: nginx
     networks:

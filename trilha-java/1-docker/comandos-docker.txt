@@ -86,6 +86,16 @@ docker images | grep laravel == busca todas imagens que contem o parametro infor
 
 docker network create minha_rede == cria uma network com o nome informado. Por padrão ele cria uma rede do tipo bridge
 
+docker-compose up == executa o docker-compose.yaml
+
+docker-compose -f meu_compose.yaml up == executa um arquivo do tipo docker-compose pelo nome informado.
+
+docker-compose ps == imprime os status dos containers do docker-compose
+
+docker-compose down == para execucao dos containers do docker-compose
+
+docker-compose up -d --build == força o build dos containers atraves do Dockerfile de cada serviço informado no docker-compose
+
 
 
 
@@ -121,6 +131,66 @@ NETWORK:
 
 
 
+DOCKER-COMPOSE:
+
+    MODELO DE USO COM IMAGENS FECHADAS:
+
+    version: '3'
+
+            services:
+
+              laravel:
+                image: usuario/laravel:prod
+                container_name: laravel
+                networks:
+                  - laranet
+
+              
+              nginx:
+                image: usuario/nginx:prod
+                container_name: nginx
+                networks:
+                  - laranet
+                ports:
+                  - "8080:80"
+
+            networks:
+              laranet:
+                driver: bridge
+
+
+
+
+    MODELO DE USO COM BUILD:
+    
+    version: '3'
+
+        services:
+
+          laravel:
+            build:
+              context: ./laravel
+              dockerfile: Dockerfile.prod
+            image: devbode/laravel:prod
+            container_name: laravel
+            networks:
+              - laranet
+
+          
+          nginx:
+            build:
+              context: ./nginx
+              dockerfile: Dockerfile.prod
+            image: devbode/nginx:prod
+            container_name: nginx
+            networks:
+              - laranet
+            ports:
+              - "8080:80"
+
+        networks:
+          laranet:
+            driver: bridge
 
 
 FLAGS:
@@ -312,6 +382,5 @@ TIPS:
     - pronto: Quando chamamos a porta 8080, o nginx recebe a requisição, carrega o arquivo index.php em branco e redireciona a chamada pro container do laravel por de baixo dos panos.
     - Dockerfiles: os dockerfiles dos dois projetos estão em suas respectivas pastas deste projeto.
     - Obs: O nginx faz a exposicao de arquivos estaticos, mas para isso precisamos mover os arquivos para dentro do container do nginx
-    
-                                        
+                                           
                                         
