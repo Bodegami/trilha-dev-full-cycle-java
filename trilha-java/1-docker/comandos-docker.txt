@@ -258,6 +258,50 @@ DOCKER-COMPOSE:
         networks:
           node-network:
             driver: bridge
+            
+            
+    MODELO DE USO COM DEPENDENCIA ENTRE CONTAINERS:
+    
+    version: '3'
+
+        services:
+
+          app:
+            build:
+              context: node
+            container_name: app
+            entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+            networks:
+              - node-network
+            volumes:
+              - ./node:/usr/src/app
+            tty: true
+            ports:
+              - "3000:3000"
+            depends_on:
+              - db
+
+
+          db:
+            image: mysql:5.7
+            command: --innodb-use-native-aio=0 --explicit_defaults_for_timestamp --default-authentication-plugin=mysql_native_password
+            container_name: db
+            restart: always
+            tty: true
+            volumes:
+              - ./mysql:/var/lib/mysql
+            environment:
+              MYSQL_DATABASE: nodedb
+              MYSQL_USER: example
+              MYSQL_PASSWORD: example
+              MYSQL_ROOT_PASSWORD: example
+            networks:
+              - node-network
+
+        networks:
+          node-network:
+            driver: bridge
+            
 
 
 FLAGS:
@@ -312,7 +356,7 @@ TIPS:
     - acessamos a versao que buscamos e seremos redirecionados para a github da imagem
     - no repositorio do gitub é possivel acessar o dockerfile e verificar todas as instrucoes.
   
-- Linux tips:
+- LINUX TIPS:
     - echo $(pwd) == imprime o diretorio atual
     - uname -a == imprime a versao linux
     
@@ -449,5 +493,11 @@ TIPS:
     - pronto: Quando chamamos a porta 8080, o nginx recebe a requisição, carrega o arquivo index.php em branco e redireciona a chamada pro container do laravel por de baixo dos panos.
     - Dockerfiles: os dockerfiles dos dois projetos estão em suas respectivas pastas deste projeto.
     - Obs: O nginx faz a exposicao de arquivos estaticos, mas para isso precisamos mover os arquivos para dentro do container do nginx
-                                           
-                                        
+
+- SOBRE O DOCKER-COMPOSE:
+    - A propriedade depends_on na versao 2 do docker-compose: espera o container informado subir, para entao subir o container que contem a dependencia
+    - A propriedade depends_on na versao 3 do docker-compose: apenas indica para subir primeiro o container marcado como dependencia, mas isso ñ significa que ele vai esperar a dependencia subir primeiro
+    - Para contornar esse problema, adicionamos o DOCKERIZE no Dockerfile do container que tem uma dependencia: o comando está diponivel na pagina do dockerize
+    - Adicionamos o entrypoint no servico do docker-compose: entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh 
+    - Executamos o build do docker-compose: docker-compose up -d --build
+    - Acessamos os logs do container do app para validar se ele esperou a dependencia subir: docker-compose logs app

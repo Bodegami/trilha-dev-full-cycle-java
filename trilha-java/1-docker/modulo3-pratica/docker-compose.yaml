@@ -6,6 +6,7 @@ services:
     build:
       context: node
     container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     networks:
       - node-network
     volumes:
@@ -13,6 +14,8 @@ services:
     tty: true
     ports:
       - "3000:3000"
+    depends_on:
+      - db
 
 
   db:
@@ -36,6 +39,7 @@ networks:
     driver: bridge
 
 
+
 # Acessamos o container do db: docker exec it db bash
 # Entramos com usuario e senha root: mysql -uroot -p
 # Setamos o banco de dados: use nodedb;
@@ -43,4 +47,5 @@ networks:
 # Confirmamos se a tabela foi gerada: desc people;
 
 # Acessamos o container do node: docker exec -it app bash
-# Instalamos o mysql: npm install mysql --save    
+# Instalamos o mysql: npm install mysql --save
+
