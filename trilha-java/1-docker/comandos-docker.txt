@@ -191,6 +191,33 @@ DOCKER-COMPOSE:
         networks:
           laranet:
             driver: bridge
+            
+            
+    MODELO COM MYSQL E SALVANDO OS DADOS LOCAL:
+    
+    version: '3'
+
+        services:
+
+          db:
+            image: mysql:5.7
+            command: --innodb-use-native-aio=0 --explicit_defaults_for_timestamp --default-authentication-plugin=mysql_native_password
+            container_name: db
+            restart: always
+            tty: true
+            volumes:
+              - ./mysql:/var/lib/mysql
+            environment:
+              MYSQL_DATABASE: nodedb
+              MYSQL_USER: example
+              MYSQL_PASSWORD: example
+              MYSQL_ROOT_PASSWORD: example
+            networks:
+              - node-network
+
+        networks:
+          node-network:
+            driver: bridge
 
 
 FLAGS:

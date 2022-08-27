@@ -2,27 +2,22 @@ version: '3'
 
 services:
 
-  laravel:
-    build:
-      context: ./laravel
-      dockerfile: Dockerfile.prod
-    image: devbode/laravel:prod
-    container_name: laravel
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0 --explicit_defaults_for_timestamp --default-authentication-plugin=mysql_native_password
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: nodedb
+      MYSQL_USER: bode
+      MYSQL_PASSWORD: bode
+      MYSQL_ROOT_PASSWORD: example
     networks:
-      - laranet
-
-  
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.prod
-    image: devbode/nginx:prod
-    container_name: nginx
-    networks:
-      - laranet
-    ports:
-      - "8080:80"
+      - node-network
 
 networks:
-  laranet:
+  node-network:
     driver: bridge
