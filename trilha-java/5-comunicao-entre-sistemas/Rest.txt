@@ -14,3 +14,77 @@
  - Nivel 2: Verbos HTTP (quando se utiliza de forma correta ou padronizada os verbos e suas operções)
  - Nivel 3: HATEOAS (Hypermedia as the Engine of Application State) (quando alem de responde a operação, 
     enviamos também os links do que mais o client pode fazer a partir daquele estado.
+
+# REST: Uma boa API REST
+
+1 - Utiliza URIs únicas para serviços e itens que expostos para esses serviços
+2 - Utiliza todos os verbos HTTP para realizar as operações em seus recursos, incluindo caching
+3 - Provê links relacionais para os recursos exempleficando o que pode ser feito
+
+# REST: HAL, Collection+JSON e Siren
+
+Mais utilizados:
+ - JSON não prove um padrão de hipermidia para realizar a linkagem
+ - HAL: Hipermedia Application Language
+ - Siren
+ 
+Nivel de maturidade mais alto: 
+ - Media type = application/hal+json
+ 
+
+# REST: HTTP Method Negotiation
+
+ HTTP possui outro método: OPTIONS. 
+ Esse método nos permite informar quais métodos são permitidos ou não em determinado recurso.
+ EX:
+ 
+ OPTIONS /api/product HTTP/1.1
+ Host: fullcycle.com.br
+ 
+ Resposta pode ser:
+ 
+ HTTP/1.1 200 OK
+ Allow: GET, POST
+ 
+ Caso envia a requisição em outro formato:
+ 
+ HTTP/1.1 405 NOT ALLOWED
+ Allow: GET, POST
+ 
+ 
+# REST: Content Negotiation
+
+ O processo de content negotiation é baseado na requisição que o client está fazendo para o server. 
+ Nesse caso ele solicita o que e como ele quer a resposta. 
+ O server então retornará ou não a informação no formato desejado.
+ EX:
+ 
+1 - Accet Negotiation:
+
+ - Client solicita a informação e o tipo de retorno pelo server baseado no media type 
+ informado por ordem de prioridade.
+ 
+ GET /product
+ Accept: application/json
+ 
+ Resposta pode ser o retorno dos dados ou:
+ 
+ HTTP/1.1 406 NOT ACCEPTABLE
+ 
+ 
+2 - Content-Type Negotiation:
+
+ - Através de um content-type no header da request, o servidor consegue verificar 
+ se ele irá conseguir processar a informação para retornar a informação desejada.
+ 
+ POST /product HTTP/1.1
+ Accept: application/json
+ Content-Type: application/json
+ 
+ {
+   "name": "Product 1"
+ }
+ 
+ Caso o servidor não aceite o content-type, ele poderá retornar:
+ 
+ HTTP/1.1 415 Unsupported Media Type
