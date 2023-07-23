@@ -1,0 +1,16 @@
+
+# REPRESETATIONAL STATE OF STRANSFER (REST)
+
+1 - Criado por Rooy Fielding em sua dissertação de doutorado
+2 - Simplicidade
+3 - Stateless
+4 - Cacheavel
+
+# Niveis de maturidade (Richardson Maturity Model)
+
+ - Nivel 0: The Swamp of POX (quando não se tem nenhuma padronização)
+ - Nivel 1: Utilização de resources (quando se utiliza verbos HTTP, URI e OPERAÇÕES)
+	Ex: VERBO=GET | URI=/products/1 | OPERACAO=Buscar 
+ - Nivel 2: Verbos HTTP (quando se utiliza de forma correta ou padronizada os verbos e suas operções)
+ - Nivel 3: HATEOAS (Hypermedia as the Engine of Application State) (quando alem de responde a operação, 
+    enviamos também os links do que mais o client pode fazer a partir daquele estado.
