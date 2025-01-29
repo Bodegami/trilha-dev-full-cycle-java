@@ -1,0 +1,6 @@
+Abrir o Sqlite na instancia:
+- sqlite3 db.sqlite
+
+Consultar as tabelas:
+- .tables
+
