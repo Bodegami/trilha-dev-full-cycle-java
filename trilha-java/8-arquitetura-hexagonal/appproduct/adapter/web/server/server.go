@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/bodegami/trilha-dev-full-cycle-java/arquitetura-hexagonal/adapter/web/handler"
 	"github.com/bodegami/trilha-dev-full-cycle-java/arquitetura-hexagonal/application"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -24,6 +25,9 @@ func (w *WebServer) Serve() {
 	n := negroni.New(
 		negroni.NewLogger(),
 	)
+
+	handler.MakeProductHandlers(router, n, w.Service)
+	http.Handle("/", router)
 
 	server := &http.Server{
 		ReadHeaderTimeout: 10 * time.Second,
