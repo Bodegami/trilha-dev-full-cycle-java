@@ -4,3 +4,8 @@ Abrir o Sqlite na instancia:
 Consultar as tabelas:
 - .tables
 
+Ativando o webserver:
+- go run main.go http
+
+Ativando o webserver:
+- go run main.go cli
